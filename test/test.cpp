@@ -30,7 +30,7 @@ CTEST(suite1, test2)
 				coincidence++;
 		}
 	}
-	ASSERT_EQAUL(0, coincidence);
+	ASSERT_EQUAL(0, coincidence);
 }
 
 CTEST(suite2, test1)
