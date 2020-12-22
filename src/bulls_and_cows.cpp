@@ -67,7 +67,7 @@ bool BullsAndCows::analyze(int bulls, int cows, int& previous_bulls,
 	{
 		// Текущая цифра в позиции position точно не входит в
 		// загаданное число, исключаем его
-		int found_pos = digits.find(attempt[position]);
+		unsigned int found_pos = digits.find(attempt[position]);
 		if (found_pos != std::string::npos)
 			digits.erase(digits.begin() + found_pos);
 		if (denied_digit == "")
