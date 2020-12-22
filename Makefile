@@ -1,4 +1,4 @@
-all: bin/bulls_and_cows bin/test
+all: bin/bulls_and_cows
 
 clean:
 	rm -rf bin/bulls_and_cows *.o
