@@ -10,6 +10,98 @@
 
 
 /**
+ * Функция вычисляет количество быков и коров в попытке игрока.
+ * @param attempt: попытка игрока;
+ * @param number: загаданное число.
+ * @return: массив из количества быков и коров в попытке.
+ */
+int* calculate_bulls_and_cows(std::string& attempt,
+	std::string& number)
+{
+	int bulls = 0, cows = 0; // количество быков и коров
+	for (unsigned int i = 0; i < number.length(); i++)
+	{
+		for (unsigned int j = 0; j < number.length(); j++)
+		{
+			if (i == j && attempt[i] == number[j])
+				bulls++;
+			if (i != j && attempt[i] == number[j])
+				cows++;
+		}
+	}
+	int* result = new int[2];
+	result[0] = bulls;
+	result[1] = cows;
+	return result;
+}
+
+/**
+ * Функция выводит на экран количество быков и коров в попытке игрока.
+ * @param bulls, cows: количество быков и коров в попытке игрока.
+ * @return: текст, который выводится на экран.
+ */
+const std::string show_bulls_and_cows(const int bulls, const int cows)
+{
+	std::string result = "В вашем варианте ";
+	// Количество коров
+	if (cows == 0)
+		result += "нет коров ";
+	else if (cows == 1)
+		result += " 1 корова ";
+	else if (cows < 5)
+		result += std::to_string(cows) + " коровы ";
+	else
+		result += std::to_string(cows) + " коров ";
+	// Количество быков
+	if (bulls == 0)
+		result += "и нет быков.\n";
+	else if (bulls == 1)
+		result += "и 1 бык.\n";
+	else if (bulls < 5)
+		result += "и " + std::to_string(bulls) + " быка.\n";
+	else
+		result += "и " + std::to_string(bulls) + " быков.\n";
+	std::cout << result;
+	return result;
+}
+
+/**
+ * Функция придумывает случайное n-значное число.
+ * @param n: количество цифр в числе.
+ * @return: n-значное число из неповторяющихся цифр.
+ */
+std::string think_random_number(const int n)
+{
+	srand((unsigned int)time(NULL));
+	std::string number; // переменная для числа
+	for (int i = 0; i < n; i++)
+	{
+		bool is_unique = false;
+		char digit; // цифра для числа
+		while (!is_unique)
+		{
+			// Считаем по умолчанию, что цифры digit в числе number нет
+			is_unique = true;
+			// Получаем случайную цифру от 0 до 9
+			digit = std::to_string(rand() % 10)[0];
+			// Проверяем, что в числе нет цифры digit
+			for (unsigned int j = 0; j < number.length(); j++)
+			{
+				if (number[j] == digit)
+				{
+					// В числе number уже есть цифра digit
+					is_unique = false;
+					break;
+				}
+			}
+		}
+		// Нашли цифру, которой в числе не было, добавляем эту цифру
+		number += digit;
+	}
+	return number;
+}
+
+/**
  * Метод анализирует изменение количества быков и коров при угадывании числа
  * компьютером.
  * @param bulls, cows: количество быков и коров в текущей попытке;
@@ -104,39 +196,13 @@ bool BullsAndCows::analyze(int bulls, int cows, int& previous_bulls,
 }
 
 /**
- * Метод вычисляет количество быков и коров в попытке игрока.
- * @param attempt: попытка игрока;
- * @param number: загаданное число.
- * @return: массив из количества быков и коров в попытке.
- */
-int* BullsAndCows::calculate_bulls_and_cows(std::string& attempt,
-	std::string& number)
-{
-	int bulls = 0, cows = 0; // количество быков и коров
-	for (int i = 0; i < N; i++)
-	{
-		for (int j = 0; j < N; j++)
-		{
-			if (i == j && attempt[i] == number[j])
-				bulls++;
-			if (i != j && attempt[i] == number[j])
-				cows++;
-		}
-	}
-	int* result = new int[2];
-	result[0] = bulls;
-	result[1] = cows;
-	return result;
-}
-
-/**
  * Метод реализует игровой процесс, когда компьютер загадывает число.
  * @return: true, если игра закончена по правилам, иначе false.
  */
 bool BullsAndCows::comp_concieve_number()
 {
 	// Компьютер загадывает случайное число
-	number = think_random_number();
+	number = think_random_number(N);
 	std::cout << "\nНовая игра!\nЯ загадал " << N << "-значное число с "
 		"неповторяющимися цифрами. Отгадайте его.\n";
 	// Если включен режим отладки, выводим на экран загаданное число
@@ -306,7 +372,7 @@ bool BullsAndCows::iterate_number()
 	if (attempt == "****")
 	{
 		// Делается первая попытка угадать число
-		attempt = think_random_number();
+		attempt = think_random_number(N);
 		test_position = 0;
 		variant = 1;
 		return true;
@@ -408,34 +474,6 @@ void BullsAndCows::set_to_default()
 }
 
 /**
- * Метод выводит на экран количество быков и коров в попытке игрока.
- * @param bulls, cows: количество быков и коров в попытке игрока.
- */
-void BullsAndCows::show_bulls_and_cows(const int bulls, const int cows)
-{
-	std::string result = "В вашем варианте ";
-	// Количество коров
-	if (cows == 0)
-		result += "нет коров ";
-	else if (cows == 1)
-		result += " 1 корова ";
-	else if (cows < 5)
-		result += std::to_string(cows) + " коровы ";
-	else
-		result += std::to_string(cows) + " коров ";
-	// Количество быков
-	if (bulls == 0)
-		result += "и нет быков.\n";
-	else if (bulls == 1)
-		result += "и 1 бык.\n";
-	else if (bulls < 5)
-		result += "и " + std::to_string(bulls) + " быка.\n";
-	else
-		result += "и " + std::to_string(bulls) + " быков.\n";
-	std::cout << result;
-}
-
-/**
  * Метод выводит на экран правила игры.
  */
 void BullsAndCows::show_rules()
@@ -526,39 +564,4 @@ const char BullsAndCows::stop_game()
 		return STOP_GAME;
 	// Игрок хочет продолжит игру
 	return START_GAME;
-}
-
-/**
- * Метод придумывает случайное N-значное число.
- * @return: N-значное число из неповторяющихся цифр.
- */
-std::string BullsAndCows::think_random_number()
-{
-	srand((unsigned int)time(NULL));
-	std::string number; // переменная для числа
-	for (int i = 0; i < N; i++)
-	{
-		bool is_unique = false;
-		char digit; // цифра для числа
-		while (!is_unique)
-		{
-			// Считаем по умолчанию, что цифры digit в числе number нет
-			is_unique = true;
-			// Получаем случайную цифру от 0 до 9
-			digit = std::to_string(rand() % 10)[0];
-			// Проверяем, что в числе нет цифры digit
-			for (unsigned int j = 0; j < number.length(); j++)
-			{
-				if (number[j] == digit)
-				{
-					// В числе number уже есть цифра digit
-					is_unique = false;
-					break;
-				}
-			}
-		}
-		// Нашли цифру, которой в числе не было, добавляем эту цифру
-		number += digit;
-	}
-	return number;
 }

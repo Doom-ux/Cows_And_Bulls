@@ -9,6 +9,13 @@
 
 #include <vector>
 
+// Функция вычисляет количество коров и быков в попытке игрока
+int* calculate_bulls_and_cows(std::string&, std::string&);
+// Функция выводит на экран количество быков и коров в попытке игрока
+const std::string show_bulls_and_cows(const int, const int);
+// Функция придумывает случайное N-значное число
+std::string think_random_number(const int);
+
 /**
  * Класс для игры "Быки и коровы".
  */
@@ -16,14 +23,10 @@ class BullsAndCows
 {
 public:
 	// Методы:
-	// Метод вычисляет количество коров и быков в попытке игрока
-	int* calculate_bulls_and_cows(std::string&, std::string&);
 	// Метод определяет роли компьютера и игрока в игре
 	char determine_roles();
 	// Метод запускает игру
 	bool start_game();
-	// Метод придумывает случайное N-значное число
-	std::string think_random_number();
 
 private:
 	// Постоянные значения
@@ -59,8 +62,6 @@ private:
 	const char select_response(const char*, const std::vector<char>&);
 	// Метод возвращает значения атрибутов в исходные состояния
 	void set_to_default();
-	// Метод выводит на экран количество быков и коров в попытке игрока
-	void show_bulls_and_cows(const int, const int);
 	// Метод выводит на экран правила игры
 	void show_rules();
 	// Метод определяет, нужно ли завершить игру
