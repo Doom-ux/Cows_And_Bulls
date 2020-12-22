@@ -1,7 +1,7 @@
 # BullsAndCows
 Курсовой проект
 
-Ссылка на Travis CI: [![Build Status](https://travis-ci.com/timerke/BullsAndCows.svg?branch=main)](https://travis-ci.com/timerke/BullsAndCows)
+[![Build Status](https://travis-ci.com/timerke/BullsAndCows.svg?branch=main)](https://travis-ci.com/timerke/BullsAndCows)
 
 # Техническое задание
 ## Функциональность проекта
