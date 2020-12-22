@@ -4,7 +4,7 @@
 
 #include "ctest.h"
 #include <string>
-#include "bulls_and_cows.h"
+#include "../src/bulls_and_cows.h"
 
 
 CTEST(suite1, test1)
@@ -40,7 +40,6 @@ CTEST(suite2, test1)
 	std::string number = "6732";
 	int* bulls_and_cows = calculate_bulls_and_cows(attempt, number);
 	int bulls = bulls_and_cows[0];
-	int cows = bulls_and_cows[1];
 	ASSERT_EQUAL(2, bulls);
 }
 
@@ -50,7 +49,6 @@ CTEST(suite2, test2)
 	std::string attempt = "8742";
 	std::string number = "6732";
 	int* bulls_and_cows = calculate_bulls_and_cows(attempt, number);
-	int bulls = bulls_and_cows[0];
 	int cows = bulls_and_cows[1];
 	ASSERT_EQUAL(0, cows);
 }
@@ -60,5 +58,5 @@ CTEST(suite3, test1)
 	// Тест на правильность сообщения о количестве коров и быков
 	const std::string result = show_bulls_and_cows(0, 2);
 	const std::string expected = "В вашем варианте 2 коровы и нет быков.\n";
-	ASSERT_STR(expected, result);
+	ASSERT_STR(expected.c_str(), result.c_str());
 }
